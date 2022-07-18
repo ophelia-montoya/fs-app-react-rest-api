@@ -1,5 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+
+import Header from './components/Header';
+import UserSignIn from './components/UserSignIn';
+import UserSignOut from './components/UserSignOut';
+import UserSignUp from './components/UserSignUp';
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
+import CreateCourse from './components/CreateCourse';
+import UpdateCourse from './components/UpdateCourse';
+
 
 
 fetch('http://localhost:5000/api/courses')
@@ -10,9 +24,19 @@ fetch('http://localhost:5000/api/courses')
 
 function App() {
   return (
-    <div>
+    <Router>  
+      <div>
+        <Header />
+
+        <Switch>
+          <Route exact path ='/' component={() => <Courses />} />
+          <Route path='/signin' component={() => <UserSignIn />} />
+          <Route path="/signout" component={() => <UserSignOut />} />
+        </Switch>
+      </div>
     
-    </div>
+    </Router>
+ 
   );
 }
 
