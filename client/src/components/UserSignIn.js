@@ -1,44 +1,94 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
+import Form from './Form';
 
 export default class UserSignIn extends Component {
   state = {
-    emailAddress: "",
-    password: "",
+    emailAddress: '',
+    password: '',
     errors: [],
   };
 
   render() {
-    const { username, password, errors } = this.state;
+    const { emailAddress, password, errors } = this.state;
 
     return (
-      <div class="form--centered">
+      <div className="form--centered">
         <h2>Sign In</h2>
-
-        <form>
-          <label for="emailAddress">Email Address</label>
-          <input
-            id="emailAddress"
-            name="emailAddress"
-            type="email"
-            value=""
-          ></input>
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" value=""></input>
-          <button class="button" type="submit">
-            Sign In
-          </button>
-          <button
-            class="button button-secondary"
-            onclick="event.preventDefault(); location.href='index.html';"
-          >
-            Cancel
-          </button>
-        </form>
+        <Form 
+          cancel={this.cancel}
+          errors={errors}
+          submit={this.submit}
+          submitButtonText="Sign In"
+          elements={() => (
+            <React.Fragment>
+              <input 
+                id="emailAddress"
+                name="emailAddress"
+                type="text"
+                value={emailAddress}
+                onChange={this.change}
+                placeholder="Email Address" />
+              <input 
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={this.change}
+                placeholder="Password"
+              />
+            </React.Fragment>
+          )} />
         <p>
-          Don't have a user account? Click here to{" "}
-          <a href="sign-up.html">sign up</a>!
+          Don't have a user account? Click here to <Link to='/signup'>sign up</Link>!
         </p>
       </div>
     );
   }
+
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  }
+
+  submit = () => {
+
+    const { context } = this.props;
+
+    const { emailAddress, password } = this.state;
+
+    // calls signIn() async operation, passing in user credentials to login
+    // returns a promise
+    context.actions.signIn(emailAddress, password)
+    .then(user => {
+
+      // if returned promise value is null...
+      if (user === null) {
+
+        // ...set errors state of the UserSignIn class...
+        this.setState(() => {
+
+          // ...to an array holding a validation message to display to user
+          return { errors: ['Sign in was unsuccessful'] };
+        });
+      } else {
+        console.log(`SUCCESS! ${emailAddress} is now signed in!`)
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      this.props.history.push('/error');
+    })
+  }
+  cancel = () => {
+    this.props.history.push('/');
+  }
+
+
 }

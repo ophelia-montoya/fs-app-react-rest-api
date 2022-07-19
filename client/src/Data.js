@@ -28,19 +28,19 @@ export default class Data {
     if (requiresAuth) {
 
       // create a base-64 ASCII string from stringified data 
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
 
       // set Authorization header on each requests that requires authentication
-      options.headers.Authorization = `Basic ${encodedCredentials}`;
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
     return fetch(url, options);
   }
 
   // performs async operations that get an authenticated user
-  async getUser(username, password) {
+  async getUser(emailAddress, password) {
 
     // constant awaits response from sending a GET request to /users endpoint
-    const response = await this.api('/users', 'GET', null, true, {username, password});
+    const response = await this.api('/users', 'GET', null, true, {emailAddress, password});
 
     // if response status is '200 OK'...
     if (response.status === 200) {
@@ -81,6 +81,20 @@ export default class Data {
     } else {
       throw new Error();
     }
+  }
+
+
+  async getCourses() {
+
+    const response = await this.api('/courses');
+
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    } else {
+      throw new Error("Wtfff!");
+    }
+
+
   }
 
 
