@@ -43,7 +43,7 @@ function CreateCourse() {
         </button>
         <button
           className="button button-secondary"
-          onclick="event.preventDefault(); location.href='index.html';"
+          onClick="event.preventDefault(); location.href='index.html';"
         >
           Cancel
         </button>

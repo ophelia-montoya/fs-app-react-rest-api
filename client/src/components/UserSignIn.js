@@ -61,6 +61,9 @@ export default class UserSignIn extends Component {
 
     const { context } = this.props;
 
+    // extract 'from' from this.props to navigate user to original route if redirected to /signin
+    const { from } = this.props.location.state || { from: {pathname: '/'} };
+
     const { emailAddress, password } = this.state;
 
     // calls signIn() async operation, passing in user credentials to login
@@ -78,6 +81,7 @@ export default class UserSignIn extends Component {
           return { errors: ['Sign in was unsuccessful'] };
         });
       } else {
+        this.props.history.push(from); //redirect route
         console.log(`SUCCESS! ${emailAddress} is now signed in!`)
       }
     })

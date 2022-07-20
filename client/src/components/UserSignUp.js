@@ -4,7 +4,8 @@ import Form from './Form';
 
 export default class UserSignUp extends Component {
   state = {
-    name: '',
+    firstName: '',
+    lastName: '',
     emailAddress: '',
     password: '',
     errors: [],
@@ -13,7 +14,8 @@ export default class UserSignUp extends Component {
   render() {
 
     const {
-      name,
+      firstName,
+      lastName,
       emailAddress,
       password,
       errors,
@@ -32,12 +34,19 @@ export default class UserSignUp extends Component {
         elements={() => (
             <React.Fragment>
               <input 
-                id="name"
-                name="name"
+                id="firstName"
+                name="firstName"
                 type="text"
-                value={name}
+                value={firstName}
                 onChange={this.change}
-                placeholder="Name" />
+                placeholder="First Name" />
+              <input 
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={lastName}
+                onChange={this.change}
+                placeholder="Last Name" />
               <input 
                 id="emailAddress"
                 name="emailAddress"
@@ -78,11 +87,15 @@ export default class UserSignUp extends Component {
     // extracts context prop from this.props
     const { context } = this.props;
 
+    // extract 'from' from this.props to navigate user to original route
+    const { from } = this.props.location.state || {from: { pathname: '/' }};
+
+
     // unpacks props from state object to keep submit handler cleaner 
-    const { name, emailAddress, password } = this.state;
+    const { firstName, lastName, emailAddress, password } = this.state;
 
     // initializes a user whose props are name, emailAddress, and password
-    const user = {name, emailAddress, password};
+    const user = {firstName, lastName, emailAddress, password};
 
     // calls createUser(), which accepts a user object as a parameter
     context.data.createUser(user)
@@ -95,8 +108,14 @@ export default class UserSignUp extends Component {
         this.setState({errors});
       } else {
 
-        // else confirm new user successfully created
-        console.log('user authenticated!');
+        // calls signIn() 
+        context.actions.signIn(emailAddress, password)
+        .then(() => {
+
+          // render root component 
+          this.props.history.push(from);
+          console.log('User successfully signed up!');
+        });
       }
     })
     .catch(err => {

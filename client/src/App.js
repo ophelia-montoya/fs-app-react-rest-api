@@ -26,7 +26,8 @@ import PrivateRoute from './PrivateRoute';
 // initialize constants whose values call withContext()
 const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
-const userSignInWithContext = withContext(UserSignIn);
+const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
 
 
 
@@ -39,9 +40,9 @@ function App() {
 
         <Switch>
           <Route exact path ='/' component={() => <Courses />} />
-          <Route path='/signin' component={userSignInWithContext} />
+          <Route path='/signin' component={UserSignInWithContext} />
           <Route path='/signup' component={UserSignUpWithContext} /> 
-          <Route path='/signout' component={() => <UserSignOut />} />
+          <Route path='/signout' component={() => <UserSignOutWithContext />} />
           <Route path='/courses/id' component={() => <CourseDetail />} />
           <Route path='/courses/create' component={() => <CreateCourse />} />
           <Route path='/courses/id/update' component={() => <UpdateCourse />} />

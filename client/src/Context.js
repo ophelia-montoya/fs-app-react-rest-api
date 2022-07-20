@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Cookies from 'js-cookie';
+
 //imports Data.js file containing helper functions
 import Data from './Data';
 
@@ -19,6 +21,14 @@ export class Provider extends Component {
     // initialize new instance of Data class inside constructor
     this.data = new Data();
 
+    // retrieves value of cookie 
+    this.cookie = Cookies.get('authenticatedUser');
+
+    // sets initial state of Provider class to value stored in cookie or null
+    this.state = {
+      authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null
+    };
+
   }
 
 
@@ -37,11 +47,12 @@ export class Provider extends Component {
       // used to determine what display to user
       data: this.data,
 
-      // actions object 
+      // actions object to store functions
       actions: {
 
-        // stores signIn() function in a prop
         signIn: this.signIn,
+
+        signOut: this.signOut
 
       },
 
@@ -74,11 +85,27 @@ export class Provider extends Component {
           
           // ...update state to user value, otherwise remain null
           authenticatedUser: user,
-        }
-      })
+        };
+      });
+
+      // creates cookie to store authenticatedUser data (name and email)
+      Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
     }
 
     return user;
+  }
+
+  signOut = () => {
+
+    // removes name and emailAddress props from state on user sign out
+    this.setState(() => {
+      return {
+        authenticatedUser: null,
+      };
+    });
+
+    // deletes authenticatedUser cookie
+    Cookies.remove('authenticatedUser');
   }
 
 
