@@ -8,6 +8,7 @@ import { default as Data } from '../Data.js';
 function Courses(props) {
   const [courses, setCourses] = useState([]);
 
+console.log();
   const history = useHistory();
 
   const data = new Data();

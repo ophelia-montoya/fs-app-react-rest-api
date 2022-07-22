@@ -80,6 +80,8 @@ export class Provider extends Component {
 
     // if user value is not null... 
     if (user !== null) {
+      user.password = password;
+
       this.setState(() => {
         return {
           
@@ -87,6 +89,7 @@ export class Provider extends Component {
           authenticatedUser: user,
         };
       });
+      // user.password = password;
 
       // creates cookie to store authenticatedUser data (name and email)
       Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
@@ -107,9 +110,6 @@ export class Provider extends Component {
     // deletes authenticatedUser cookie
     Cookies.remove('authenticatedUser');
   }
-
-
-
 
 }
 

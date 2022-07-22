@@ -9,8 +9,6 @@ export default class Header extends React.PureComponent {
     // stores authenticatedUser data as an object OR null
     const authUser = context.authenticatedUser;
 
-    console.log(authUser);
-
     return (
       <header>
         <div className="wrap header--flex">

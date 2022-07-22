@@ -20,7 +20,7 @@ export default class Data {
     // if body is not null...
     if (body !== null) {
       
-      // ...add body to options, and convert into a string
+      // ...add body to options, and convert into a JSON string
       options.body = JSON.stringify(body);
     }
 
@@ -91,10 +91,34 @@ export default class Data {
     if (response.status === 200) {
       return response.json().then(data => data);
     } else {
-      throw new Error("Wtfff!");
+      throw new Error();
+    } 
+  }
+
+  async createCourse(course) {
+    // const { emailAddress, password } = course;
+    // const response = await this.api('/courses', 'POST', course, true, { emailAddress, password} );
+    const response = await this.api('/courses', 'POST', course);
+
+    if (response.data === 201 ) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.errors
+      });
+    } else {
+      throw new Error();
     }
+  }
 
+  async courseDetail(id) {
+    const response = await this.api(`/courses/${id}`);
 
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    } else {
+      throw Error();
+    }
   }
 
 
