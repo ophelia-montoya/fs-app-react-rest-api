@@ -28,16 +28,39 @@ function CourseDetail(props) {
       });
   }, []);
 
+  console.log(course);
+  console.log(authenticatedUser);
+  // console.log(userId);
+  // TRYING TO ADD DELETE/UPDATE FUNCITONALITY!!
+
+  const deleteButton = () => {
+    data.deleteCourse(course.id, authenticatedUser)
+    .then((errors) => {
+      if (errors) {
+        console.log(errors);
+      } else {
+        console.log("Course deleted successfully!")
+      }
+    })
+    .then(() => history.push('/'))
+    .catch((err) => console.log(err));
+
+  }
+
+  const updateButton = () => history.push(`/courses/${course.id}/update`)
+
+
+
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={{pathname:`/courses/${id}/update`}}>
+          <button className="button" onClick={updateButton}>
             Update Course
-          </Link>
-          <Link className="button" to={{pathname:`/courses/${id}/delete`}}>
+          </button>
+          <button className="button" onClick={deleteButton}>
             Delete Course
-          </Link>
+          </button>
           <Link className="button button-secondary" to="/">
             Return to List
           </Link>
@@ -51,6 +74,8 @@ function CourseDetail(props) {
           <div>
             <h3 className="course--detail--title">Course</h3>
             <h4 className="course--name">{course.title}</h4>
+            {course.administrator ? (<p> By {course.administrator.firstName} {course.administrator.lastName} </p>) : 'No user found'}
+              <ReactMarkdown children={course.description}/>
           </div>
           <div>
             <h3 className="course--detail--title">Estimated Time</h3>

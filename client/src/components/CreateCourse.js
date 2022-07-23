@@ -104,7 +104,7 @@ class CreateCourse extends Component {
   submit = (event) => {
     const { context } = this.props;
     const data = new Data();
-    console.log(context.authenticatedUser);
+    // console.log(context.authenticatedUser);
     const { title, description, estimatedTime, materialsNeeded } = this.state;
 
     const course = {
@@ -114,7 +114,7 @@ class CreateCourse extends Component {
       materialsNeeded,
       userId: context.authenticatedUser.id,
       emailAddress: context.authenticatedUser.emailAddress,
-      password: context.authenticatedUser.emailAddress
+      password: context.authenticatedUser.password
     }
 
     data.createCourse(course, context.authenticatedUser)
@@ -122,6 +122,7 @@ class CreateCourse extends Component {
       if (errors.length) {
         this.setState({errors});
       } else {
+        console.log(`${title} successfully created!`);
         this.props.history.push('/');
       }
     })

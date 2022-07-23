@@ -14,8 +14,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           {...rest}
           
           // checks if authenticatedUser is in state... 
-          render={(props) =>
-            context.authenticatedUser ? (
+          render={(props) => context.authenticatedUser ? (
 
               // change props from  string to an object containing data re: route...
               <Component {...props} />
