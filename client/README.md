@@ -1,21 +1,12 @@
 ## Client For School Database
 
 Includes these technologies:
-<<<<<<< HEAD
-*JavaScript and JSX to build out the components.
-*React Router for routes
-*Fetch API to fetch data from REST API
-*Basic authentication to support user login
-*Added some CSS to personalize project
-=======
+
 * JavaScript and JSX to build out the components.
 * React Router for routes
 * Fetch API to fetch data from REST API
 * Basic authentication to support user login
 * Added some CSS to personalize project
->>>>>>> cf1fd7353610dbadc5e0abb0f94333352f407002
-
-
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
