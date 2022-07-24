@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {useHistory} from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { default as Data } from '../Data.js';
 
 
 
-function Courses(props) {
+function Courses() {
   const [courses, setCourses] = useState([]);
 
 console.log();

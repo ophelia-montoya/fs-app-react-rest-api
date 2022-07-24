@@ -70,8 +70,7 @@ export class Provider extends Component {
   }
 
   // async function takes emailAddress and password as arguments
-  // makes a GET request to protected /users route in server
-  // returns user data
+  // makes a GET request to protected /users route in server & returns user data
   signIn = async(emailAddress, password) => {
 
     // initializes user constant to await returned PromiseValue from getUser()
@@ -80,7 +79,6 @@ export class Provider extends Component {
 
     // if user value is not null... 
     if (user !== null) {
-      // user.password = password;
 
       this.setState(() => {
         return {

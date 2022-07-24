@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Form from "./Form";
 import {default as Data}  from '../Data';
-import {useHistory} from 'react-router-dom';
 
 class CreateCourse extends Component {
   state = {
@@ -14,7 +13,6 @@ class CreateCourse extends Component {
   };
 
   render() {
-    // const history = useHistory();
     const {context} = this.props;
     const authUser = context.authenticatedUser;
 
@@ -23,7 +21,6 @@ class CreateCourse extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId,
       errors,
     } = this.state;
 
@@ -101,10 +98,9 @@ class CreateCourse extends Component {
     });
   }
 
-  submit = (event) => {
+  submit = () => {
     const { context } = this.props;
     const data = new Data();
-    // console.log(context.authenticatedUser);
     const { title, description, estimatedTime, materialsNeeded } = this.state;
 
     const course = {

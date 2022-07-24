@@ -67,7 +67,6 @@ export default class UserSignIn extends Component {
     const { emailAddress, password } = this.state;
 
     // calls signIn() async operation, passing in user credentials to login
-    // returns a promise
     context.actions.signIn(emailAddress, password)
     .then(user => {
 

@@ -99,7 +99,7 @@ router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) =>
   if (course) {
     if (user.id == course.userId) { // ensures currently authenticated user is the owner/administrator
       await course.destroy();
-      res.status(204).send();
+      res.status(204).end();
     } else {
       res.status(403).json({"message": "You do not have access to this course"});
     }

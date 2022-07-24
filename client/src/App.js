@@ -47,7 +47,7 @@ function App() {
           <Route path='/signup' component={UserSignUpWithContext} /> 
           <Route path='/signout' component={() => <UserSignOutWithContext />} />
           <PrivateRoute exact path='/courses/create' component={(props) => <CreateCourseWithContext {...props}/>} />
-          <Route path='/courses/:id/update' component={() => <UpdateCourseWithContext />} />         
+          <PrivateRoute path='/courses/:id/update' component={() => <UpdateCourseWithContext />} />         
           <Route path='/courses/:id' component={() => <CourseDetailWithContext />} />
           <Route path='*' component={NotFound} />
         </Switch>

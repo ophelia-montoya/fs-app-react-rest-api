@@ -98,13 +98,12 @@ export default class Data {
   async createCourse(course) {
     const { emailAddress, password } = course;
     const response = await this.api('/courses', 'POST', course, true, { emailAddress, password} );
-    // const response = await this.api('/courses', 'POST', course);
 
     if (response.status === 201 ) {
       return [];
     } else if (response.status === 400) {
       return response.json().then(data => {
-        return data.errors
+        return data.errors;
       });
     } else {
       throw new Error();
@@ -134,12 +133,12 @@ export default class Data {
 
   async updateCourse(course, user) {
     const { emailAddress, password } = user;
-    const response = await this.api(`/courses/${course.id}/update`, 'PUT', course, {emailAddress, password});
+    const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password});
     if (response.status === 204 ) {
       return [];
     } else if (response.status === 400) {
       return response.json().then(data =>{
-        return data.errors
+        return data.errors;
       });
     } else {
       throw new Error();

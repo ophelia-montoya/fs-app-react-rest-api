@@ -1,61 +1,97 @@
-import React, { Component } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import Form from './Form';
+import {Context} from '../Context';
+import {default as Data} from '../Data';
 
-class UpdateCourse extends Component {
-  state = {
-    title: "",
-    description: "",
-    estimatedTime: "",
-    materialsNeeded: "",
-    userId: this.props.context.authenticatedUser.id,
-    errors: [],
-  };
+function UpdateCourse() {
 
-  render() {
+    const {authenticatedUser} = useContext(Context);
 
-    const {context} = this.props;
-    const authUser = context.authenticatedUser;
+    const [course, setCourse] = useState({
+      administrator: '',
+      title: '',
+      description: '',
+      estimatedTime: '',
+      materialsNeeded: '',
+      userId: '',
+      emailAddress: authenticatedUser.emailAddress,
+      password: authenticatedUser.password
+    });
 
-    const {
-      title,
-      courseDescription,
-      estimatedTime,
-      materialsNeeded,
-      errors
-    } = this.state;
+    const data = new Data();
+    const {id} = useParams();
+    const history = useHistory();
+    const [errors, setErrors] = useState([]);
+
+
+
+    useEffect(() => {
+      data.courseDetail(id)
+      .then(course => setCourse(course))
+      .catch(err => console.log(err));
+    }, [])
+
+
+  const change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setCourse((course) => ({...course, [name]: (value)}));
+  }
+
+  const submit = () => {
+    data.updateCourse(course, authenticatedUser)
+    .then(errors => {
+      if (errors.length) {
+        setErrors(errors);
+        console.log(errors);
+      } else {
+        history.push(`/courses/${id}`);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      history.push('/error');
+    })
+  }
+
+  const cancel = () => {
+    history.push(`/courses/${id}`);
+  }
   
 
+  
   return (
     <div className="wrap">
       <h2>Update Course</h2>
       <Form
-        cancel={this.cancel}
+        cancel={cancel}
         errors={errors}
-        submit={this.submit}
-        submitButtonText="Create Course"
+        submit={submit}
+        submitButtonText="Update Course"
         elements={() => (
         <React.Fragment> 
         <div className="main--flex">
           <div>
-            <label htmlFor="courseTitle">Course Title</label>
+            <label htmlFor="title">Course Title</label>
             <input
-              id="courseTitle"
-              name="courseTitle"
+              id="title"
+              name="title"
               type="text"
-              value={title}
-              onChange={this.change}
-              placeholder={title} />
+              value={course.title}
+              onChange={change}
+              placeholder={course.title} />
 
-            <p>By Joe Smith</p>
+            <p>{`By: ${course.administrator.firstName} ${course.administrator.lastName}`}</p>
 
-            <label htmlFor="courseDescription">Course Description</label>
+            <label htmlFor="description">Course Description</label>
             <textarea 
-              id="courseDescription" 
-              name="courseDescription" 
+              id="description" 
+              name="description" 
               type="text"
-              value={courseDescription}
-              onChange={this.change}
-              placeholder={courseDescription} />
+              value={course.description}
+              onChange={change}
+              placeholder={course.description} />
           </div>
           <div>
             <label htmlFor="estimatedTime">Estimated Time</label>
@@ -63,17 +99,17 @@ class UpdateCourse extends Component {
               id="estimatedTime"
               name="estimatedTime"
               type="text"
-              value={estimatedTime}
-              onChange={this.change}
-              placeholder={estimatedTime} />
+              value={course.estimatedTime}
+              onChange={change}
+              placeholder={course.estimatedTime} />
             <label htmlFor="materialsNeeded">Materials Needed</label>
             <textarea 
               id="materialsNeeded" 
               name="materialsNeeded" 
               type="text"
-              value={materialsNeeded}
-              onChange={this.change}
-              placeholder={estimatedTime} />
+              value={course.materialsNeeded}
+              onChange={change}
+              placeholder={course.materialsNeeded} />
           </div>
         </div>
         </React.Fragment>
@@ -81,6 +117,6 @@ class UpdateCourse extends Component {
     </div>
   )
 }
-}
+
 
 export default UpdateCourse;

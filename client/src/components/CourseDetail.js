@@ -4,7 +4,7 @@ import {Context} from '../Context';
 import {default as Data} from '../Data'; 
 import ReactMarkdown from 'react-markdown';
 
-function CourseDetail(props) {
+function CourseDetail() {
 
   const { authenticatedUser } = useContext(Context);
 
@@ -13,6 +13,8 @@ function CourseDetail(props) {
   const history = useHistory();
 
   const { id }  = useParams();
+
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const data = new Data();
 
@@ -28,10 +30,11 @@ function CourseDetail(props) {
       });
   }, []);
 
-  console.log(course);
-  console.log(authenticatedUser);
-  // console.log(userId);
-  // TRYING TO ADD DELETE/UPDATE FUNCITONALITY!!
+
+  useEffect(() => {
+    (authenticatedUser && authenticatedUser.id === course.userId) && setIsAdmin(true);
+
+  }, [course, authenticatedUser])
 
   const deleteButton = () => {
     data.deleteCourse(course.id, authenticatedUser)
@@ -50,20 +53,28 @@ function CourseDetail(props) {
   const updateButton = () => history.push(`/courses/${course.id}/update`)
 
 
+  // if (course.userId !== authenticatedUser.id) {
+  //   return <Forbidden />
+  // }
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
+        {isAdmin && ( 
+          <React.Fragment>
           <button className="button" onClick={updateButton}>
             Update Course
           </button>
           <button className="button" onClick={deleteButton}>
             Delete Course
           </button>
+          </React.Fragment>
+        )}
           <Link className="button button-secondary" to="/">
             Return to List
-          </Link>
+          </Link> 
+
         </div>
       </div>
 
@@ -74,7 +85,7 @@ function CourseDetail(props) {
           <div>
             <h3 className="course--detail--title">Course</h3>
             <h4 className="course--name">{course.title}</h4>
-            {course.administrator ? (<p> By {course.administrator.firstName} {course.administrator.lastName} </p>) : 'No user found'}
+            {course.administrator && (<p> By {course.administrator.firstName} {course.administrator.lastName} </p>)}
               <ReactMarkdown children={course.description}/>
           </div>
           <div>
