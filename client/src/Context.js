@@ -8,6 +8,8 @@ import Data from './Data';
 export const Context = React.createContext();
 
 
+// https://teamtreehouse.com/library/react-authentication
+
 export class Provider extends Component {
 
   // initializes an authenticatedUser state & sets default to null

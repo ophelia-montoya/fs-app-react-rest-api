@@ -67,6 +67,9 @@ header nav a:hover {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: block;
+    transition: all 500ms ease;
+
+
 }
 .course--label {
     color: #fff;
@@ -166,6 +169,7 @@ input, textarea {
 textarea {
     min-height: 300px;
 }
+
 .button {
     background: #7c689b;
     color: #fff;
@@ -198,6 +202,64 @@ textarea {
     box-shadow: 0 0 0 2px #63537d inset;
     cursor: pointer;
 }
+
+
+/* https://thebrandsmen.com/css-image-hover-effects/  */
+
+button,
+.button-secondary {
+  transition: 1s ease;
+}
+
+button:hover,
+.button-secondary:hover {
+  border-radius: 50%;
+  transition: 1s ease;
+}
+
+
+/* https://www.developerdrive.com/8-simple-css-hover-effects/ */
+
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		-webkit-transform: translateY(-20px);
+		transform: translateY(-20px);
+	}
+
+	80% {
+		-webkit-transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+}
+
+
+
+.course--module:hover {
+  background: rgba(131, 151, 100, 1);
+  color: #7c689b;
+  box-shadow: inset 0 0 0 3px #839764;
+  animation: bounce 1s;
+}
+
+.course--add--module:hover {
+  background: rgba(34, 38, 27, 1);
+  color: #a8b691;
+  box-shadow: inset 0 0 0 3px #22261b;
+
+}
+
+.course--add--module:hover svg.add {
+  transition: all 500ms ease;
+  fill: #a8b691;
+}
+
+
+
 input:focus, button:focus, .button:focus, textarea:focus {
     border: none;
     border-radius: 0;
@@ -239,3 +301,6 @@ input:focus, button:focus, .button:focus, textarea:focus {
         display: inline-block;
     }
 }
+
+
+

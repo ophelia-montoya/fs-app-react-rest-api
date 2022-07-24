@@ -5,6 +5,7 @@ import {
   Switch
 } from 'react-router-dom';
 
+// imports Components 
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 import UserSignUp from './components/UserSignUp';
@@ -14,6 +15,8 @@ import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
+import Forbidden from './components/Forbidden';
+import UnhandledError from './components/UnhandledError';
 
 
 // imports withContext() function from Context.js
@@ -40,7 +43,6 @@ function App() {
     <Router>  
       <div>
         <HeaderWithContext />
-
         <Switch>
           <Route exact path ='/' component={() => <Courses />} />
           <Route path='/signin' component={UserSignInWithContext} />
@@ -49,6 +51,9 @@ function App() {
           <PrivateRoute exact path='/courses/create' component={(props) => <CreateCourseWithContext {...props}/>} />
           <PrivateRoute path='/courses/:id/update' component={() => <UpdateCourseWithContext />} />         
           <Route path='/courses/:id' component={() => <CourseDetailWithContext />} />
+          <Route exact path='/forbidden' component={Forbidden} />
+          <Route path='/error' component={UnhandledError} />
+          <Route path='/notfound' component={() => <NotFound />} />
           <Route path='*' component={NotFound} />
         </Switch>
       </div>

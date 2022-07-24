@@ -9,11 +9,13 @@ export default function Form(props) {
     elements
   } = props;
 
+  // handles submit button behavior
   function handleSubmit(event) {
     event.preventDefault();
     submit();
   }
 
+  // handles cancel button behavior
   function handleCancel(event) {
     event.preventDefault();
     cancel();
@@ -21,6 +23,8 @@ export default function Form(props) {
 
   return (
     <div>
+    
+      {/* validation errors from ErrorDisplay() function below */}
       <ErrorDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()} 
@@ -33,6 +37,7 @@ export default function Form(props) {
   );
 }
 
+// returns a list item for each form validation error 
 function ErrorDisplay({errors}) {
   let errorsDisplay = null;
 

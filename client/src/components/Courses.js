@@ -5,25 +5,38 @@ import { default as Data } from '../Data.js';
 
 
 
+
+
 function Courses() {
+
+  // initializes empty array of courses
   const [courses, setCourses] = useState([]);
 
-console.log();
+  // enables use of history instance to help with navigation 
   const history = useHistory();
 
+  // initializes new instance of Data class
   const data = new Data();
   
   useEffect(() => {
+
+    // calls getCourses() function from Data.js
     data.getCourses()
+
+    // sets courses
     .then(res => setCourses(res))
     .catch(err => {
       console.log(err);
+
+      // redirects back to home page
       history.push('/');
     })
   }, [])
 
   return (
     <div className="wrap main--grid">
+
+    {/* maps through courses array to make a "card" for each course */}
       {courses.map((course, index) => (
         <Link
           to={`courses/${course.id}`}

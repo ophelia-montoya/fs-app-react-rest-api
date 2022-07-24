@@ -83,7 +83,7 @@ export default class Data {
     }
   }
 
-
+  // performs async operations that retrieve all courses
   async getCourses() {
 
     const response = await this.api('/courses');
@@ -95,6 +95,7 @@ export default class Data {
     } 
   }
 
+  // performs async operations that create a new course
   async createCourse(course) {
     const { emailAddress, password } = course;
     const response = await this.api('/courses', 'POST', course, true, { emailAddress, password} );
@@ -110,36 +111,56 @@ export default class Data {
     }
   }
 
+
+  // https://stackoverflow.com/questions/62278438/how-do-i-redirect-to-error-page-after-receiving-status-404-from-api-call-in-reac
+  // performs async operations to retrieve course details 
   async courseDetail(id) {
     const response = await this.api(`/courses/${id}`);
 
     if (response.status === 200) {
       return response.json().then(data => data);
+    } else if (response.status === 404) {
+
+      // user redirected to /notfound page if error code 404
+      return window.location.href = '/notfound';
     } else {
       throw Error();
     }
   }
 
-
+  // performs async operations that delete a course
   async deleteCourse(id, user) {
     const {emailAddress, password } = user;
     const response = await this.api(`/courses/${id}`, 'DELETE', {}, true, {emailAddress, password});
     if (response.status === 204) {
       return [];
-    } else {
-      throw new Error();
     }
-  }
+     else {
+      throw new Error();
+      
+    }
+  } 
 
+  // performs async operations that update a course
   async updateCourse(course, user) {
+
+    // extracts user credentials needed for private route
     const { emailAddress, password } = user;
+
     const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password});
     if (response.status === 204 ) {
       return [];
     } else if (response.status === 400) {
+
+      // returns validation errors if error code 400
       return response.json().then(data =>{
         return data.errors;
       });
+    } else if (response.status === 404) {
+
+      // user redirected to /notfound page if error code 404
+      window.location.href = '/notfound';
+      
     } else {
       throw new Error();
     }

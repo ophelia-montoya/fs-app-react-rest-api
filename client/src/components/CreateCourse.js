@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Form from "./Form";
-import {default as Data}  from '../Data';
 
 class CreateCourse extends Component {
   state = {
@@ -13,8 +12,14 @@ class CreateCourse extends Component {
   };
 
   render() {
+
+    // extracts context from props 
     const {context} = this.props;
-    const authUser = context.authenticatedUser;
+
+    // extracts data from context 
+    const {authenticatedUser}  = context;
+
+    const authUser = authenticatedUser;
 
     const {
       title,
@@ -87,10 +92,12 @@ class CreateCourse extends Component {
   }
 
 
+  // change event behavior
   change = (event) => {
     const name = event.target.name;
     const value= event.target.value;
 
+    // updates input fields values on changes
     this.setState(() => {
       return {
         [name]: value
@@ -98,9 +105,10 @@ class CreateCourse extends Component {
     });
   }
 
+  // submit event behavior
   submit = () => {
     const { context } = this.props;
-    const data = new Data();
+    const { data, authenticatedUser } = context;
     const { title, description, estimatedTime, materialsNeeded } = this.state;
 
     const course = {
@@ -108,22 +116,30 @@ class CreateCourse extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId: context.authenticatedUser.id,
-      emailAddress: context.authenticatedUser.emailAddress,
-      password: context.authenticatedUser.password
+      userId: authenticatedUser.id,
+      emailAddress: authenticatedUser.emailAddress,
+      password: authenticatedUser.password
     }
 
-    data.createCourse(course, context.authenticatedUser)
+    // calls createCourse() functin defined in Data.js
+    // accepts course & authenticatedUser object holding user credentials
+    data.createCourse(course, authenticatedUser)
     .then((errors) => {
       if (errors.length) {
+        
+        // sets form validation errors
         this.setState({errors});
       } else {
+
+        // success message upon submitting, redirected to home page
         console.log(`${title} successfully created!`);
         this.props.history.push('/');
       }
     })
     .catch(err => {
       console.log(err);
+
+      // redirects to /error page
       this.props.history.push('/error');
     })
 
@@ -131,6 +147,8 @@ class CreateCourse extends Component {
   }
 
   cancel = () => {
+
+    // redirects to home page if cancel button clicked
     this.props.history.push('/');
   }
 
