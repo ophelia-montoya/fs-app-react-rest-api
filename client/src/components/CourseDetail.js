@@ -42,6 +42,8 @@ function CourseDetail(props) {
         // redirects user to /error page
         history.push('/error');
       });
+      
+      // eslint-disable-next-line
   }, []);
 
 

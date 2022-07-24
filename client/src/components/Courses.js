@@ -31,6 +31,8 @@ function Courses() {
       // redirects back to home page
       history.push('/');
     })
+
+    // eslint-disable-next-line
   }, [])
 
   return (

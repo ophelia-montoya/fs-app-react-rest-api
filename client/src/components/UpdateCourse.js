@@ -58,6 +58,8 @@ function UpdateCourse() {
         // redirect user to /error page
         history.push("/error");
       });
+
+      // eslint-disable-next-line
   }, []);
 
   const change = (event) => {
